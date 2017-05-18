@@ -1,26 +1,31 @@
 'use strict';
-var prosperentMerchants = require('../../../merchants')
-exports.seed = function(knex, Promise){
-  var merchantData = prosperentMerchants.data
-  var merchantArray = []
-  merchantData.forEach(merchant => {
-    merchantArray.push(createMerchant(knex, merchant))
-  });
-  return Promise.all(merchantData)
+var merchants = require('../../../merchants')
+var products = require('../../../products')
+
+exports.seed = function(knex, Promise) {
+  return knex('products').del()
+    .then(() => {
+      return knex('merchants').del()
+        .then(() => {
+          return knex('merchants').insert(merchants)
+          .then(() => {
+            var productPromises = [];
+            products.forEach((product) => {
+              let merchant = product.merchant;
+              productPromises.push(createProduct(knex, product, merchant))
+            });
+            return Promise.all(productPromises)
+          });
+        });
+    });
 };
 
-function createMerchant(knex, merchant) {
-  return knex.table('merchants')
-    .returning('merchant_id')
-    .insert({
-      merchant_name: merchant.merchant,
-      merchant_id: merchant.merchantId
+const createProduct = (knex, product, merchant) => {
+  return knex('merchants').where('merchant_id', merchant).first()
+  .then((merchantRecord) => {
+    return knex('products').insert({
+      product_keyword: product.product_keyword,
+      merchant: product.merchant
     })
-    .then(function(merchant){
-      return knex('products')
-        .insert({
-            product_keyword: merchant.keyword,
-            merchant: merchant[0],
-          })
-    })
-}
+  });
+};
