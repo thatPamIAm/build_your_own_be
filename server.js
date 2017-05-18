@@ -96,12 +96,34 @@ app.delete('/api/v1/products/:id', (request, response) => {
   });
 });
 
-// app.put('/api/v1/products/:id', (request, response) => {
-//
-//
-// })
-//
-// app.patch
+app.put('/api/v1/products/:id/replace', (request, response) => {
+
+  database('products').where('id', request.params.id)
+    .update({
+      product_keyword: request.body.product_keyword,
+      merchant: request.body.merchant
+    })
+    .then(() => {
+      database('products').select()
+      .then((products) => {
+        response.status(200).json(products);
+      });
+  });
+});
+
+app.patch('/api/v1/products/:id/edit', (request, response) => {
+
+  database('products').where('id', request.params.id)
+    .update({
+      product_keyword: request.body.product_keyword
+    })
+    .then(() => {
+      database('products').select()
+      .then((products) => {
+        response.status(200).json(products);
+      });
+  })
+})
 
 
 app.listen(app.get('port'), () => {
