@@ -125,7 +125,6 @@ app.patch('/api/v1/products/:id/edit', (request, response) => {
   })
 })
 
-
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
