@@ -21,7 +21,7 @@ module.exports = {
       directory: './db/seeds/test'
     },
     useNullAsDefault: true
-  }
+  },
 
   production: {
     client: 'pg',
