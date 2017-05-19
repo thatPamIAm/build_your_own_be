@@ -130,7 +130,7 @@ app.post('/api/v1/merchants', (request, response) => {
 });
 
 app.post('/api/v1/products', (request, response) => {
-  const product_keyword = request.body; 
+  const product_keyword = request.body;
   const merchant = request.body;
 
   if (!product_keyword || !merchant) {
