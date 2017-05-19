@@ -4,7 +4,7 @@ exports.seed = function (knex, Promise) {
     .then(() => {
       return Promise.all([
         knex('merchants').insert({
-          id: 1, merchant_name: 'Foleys', merchant_id: '222222'
+          id: 1, merchant_name: 'Foleys', merchant_id: 222222
         }, 'merchant_id')
         .then(merchant => {
           return knex('products').insert([
@@ -21,7 +21,7 @@ exports.seed = function (knex, Promise) {
           ]);
         }),
         knex('merchants').insert({
-          id: 2, merchant_name: 'Walmart', merchant_id: '111111'
+          id: 2, merchant_name: 'Walmart', merchant_id: 111111
         }, 'merchant_id')
         .then(merchant => {
           return knex('products').insert([

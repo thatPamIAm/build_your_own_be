@@ -135,7 +135,7 @@ describe('server side testing', () => {
     });
 
     describe('POST /api/v1/merchants', () => {
-      it('should add a merchant to the database', (done) => {
+      it.skip('should add a merchant to the database', (done) => {
         chai.request(server)
         .post('/api/v1/merchants')
         .send({
@@ -165,7 +165,7 @@ describe('server side testing', () => {
     });
 
     describe('POST /api/v1/products', () => {
-      it('should add a product to the database', (done) => {
+      it.skip('should add a product to the database', (done) => {
         chai.request(server)
         .post('/api/v1/products')
         .send({
@@ -191,7 +191,7 @@ describe('server side testing', () => {
         .post('/api/v1/prodcts')
         .send({
           product_keyword: 'trendy hipster sunglasses',
-          merchant: ''
+          merchant: 123567
         })
         .end((error, response) => {
           response.should.have.status(404);
