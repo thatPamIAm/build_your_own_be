@@ -7,8 +7,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.set('port', process.env.PORT || 3000);
 app.locals.title = 'BYOB';
+
+app.set('secretKey', process.env.CLIENT_SECRET || config.CLIENT_SECRET);
+const token = jwt.sign('user', app.get('secretKey'));
+app.set('port', process.env.PORT || 3000);
 
 app.get('/', (request, response) => {
   response.send('It\'s a BYOB kind of project.');
@@ -26,7 +29,7 @@ app.set('secretKey', config.CLIENT_SECRET);
 
 const checkAuth = (request, response, next) => {
   const token = request.body.token ||
-                request.params('token') ||
+                request.param('token') ||
                 request.headers['authorization'];
 
   if (token) {
@@ -164,6 +167,11 @@ app.delete('/api/v1/products/:id', checkAuth, (request, response) => {
     database('products').select()
     .then((products) => {
       response.status(200).json(products);
+    })
+    .catch(error => {
+      response.status(404).send({
+        error: 'There is no such product in the database'
+      });
     });
   });
 });
@@ -179,6 +187,11 @@ app.put('/api/v1/products/:id/replace', checkAuth, (request, response) => {
       database('products').select()
       .then((products) => {
         response.status(200).json(products);
+      })
+      .catch(error => {
+        response.status(400).send({
+          error: 'A product keyword and merchant must be included to replace a product'
+        });
       });
     });
 });
@@ -193,6 +206,11 @@ app.patch('/api/v1/products/:id/edit', checkAuth, (request, response) => {
       database('products').select()
       .then((products) => {
         response.status(200).json(products);
+      })
+      .catch(error => {
+        response.status(400).send({
+          error: 'Product keyword must be updated to complete patch request'
+        });
       });
     });
 });
