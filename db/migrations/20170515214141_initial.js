@@ -1,6 +1,6 @@
-exports.up = function(knex, Promise) {
+exports.up = function (knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('merchants', function(table) {
+    knex.schema.createTable('merchants', function (table) {
       table.increments('id').primary();
       table.string('merchant_name');
       table.integer('merchant_id').unique();
@@ -8,7 +8,7 @@ exports.up = function(knex, Promise) {
       table.timestamps(true, true);
     }),
 
-    knex.schema.createTable('products', function(table) {
+    knex.schema.createTable('products', function (table) {
       table.increments('id').primary();
       table.string('product_keyword');
       table.integer('merchant_id').unsigned();
@@ -16,13 +16,12 @@ exports.up = function(knex, Promise) {
         .references('merchants.merchant_id');
 
       table.timestamps(true, true);
-    })
-  ])
+    }),
+  ]);
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('products'),
-    knex.schema.dropTable('merchants')
-  ]);
+    knex.schema.dropTable('merchants')]);
 };
