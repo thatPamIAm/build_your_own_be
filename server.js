@@ -21,11 +21,7 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
-if (!config.CLIENT_SECRET || !config.USERNAME || !config.PASSWORD) {
-  throw 'Make sure you have a CLIENT_SECRET, USERNAME, and PASSWORD in your .env file';
-}
-
-app.set('secretKey', config.CLIENT_SECRET);
+app.set('secretKey', process.env.CLIENT_SECRET || config.CLIENT_SECRET);
 
 const checkAuth = (request, response, next) => {
   const token = request.body.token ||
