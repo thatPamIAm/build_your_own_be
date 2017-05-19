@@ -113,7 +113,8 @@ app.get('/api/v1/merchantName', (request, response) => {
 
 // POST routes for adding merchants and products
 app.post('/api/v1/merchants', (request, response) => {
-  const { merchant_name, merchant_id } = request.body;
+  const merchant_name = request.body;
+  const merchant_id = request.body;
 
   if (!merchant_name || !merchant_id) {
     return response.sendStatus(422);
