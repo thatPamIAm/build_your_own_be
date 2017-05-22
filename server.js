@@ -65,14 +65,14 @@ app.get('/api/v1/merchants', (request, response) => {
 app.get('/api/v1/merchants/:merchant_id', (request, response) => {
   database('merchants').where('merchant_id', request.params.merchant_id).select()
     .then(merchants => {
-      if(!merchants.length) {
+      if (!merchants.length) {
         response.status(404).send({
           error: 'There is no such merchant in the database'
         });
       } else {
         response.status(200).json(merchants);
       }
-    })
+    });
 });
 
 app.get('/api/v1/products', (request, response) => {
@@ -90,13 +90,13 @@ app.get('/api/v1/products', (request, response) => {
 app.get('/api/v1/products/:id', (request, response) => {
   database('products').where('id', request.params.id).select()
     .then(products => {
-      if(!products.length) {
+      if (!products.length) {
         response.status(404).send({
           error: 'There is no such product in the database'
         });
       } else {
         response.status(200).json(products);
-      };
+      }
     });
 });
 
@@ -104,14 +104,14 @@ app.get('/api/v1/products/:id', (request, response) => {
 app.get('/api/v1/merchantName', (request, response) => {
   database('merchants').where('merchant_name', request.query.merchant_name).select()
     .then(merchants => {
-      if(!merchants.length) {
+      if (!merchants.length) {
         response.status(404).send({
           error: 'There is no such merchant in the database'
         });
       } else {
         response.status(200).json(merchants);
       }
-    })
+    });
 });
 
 // POST routes for adding merchants and products
@@ -122,7 +122,7 @@ app.post('/api/v1/merchants', (request, response) => {
     return response.sendStatus(422);
   }
 
-  database('merchants').insert({merchant_name, merchant_id}, ['merchant_name', 'merchant_id'])
+  database('merchants').insert({ merchant_name, merchant_id }, ['merchant_name', 'merchant_id'])
     .then(() => {
       database('merchants').select()
       .then(merchants => {
@@ -160,7 +160,7 @@ app.delete('/api/v1/merchants/:merchant_id', checkAuth, (request, response) => {
   });
 });
 
-app.delete('/api/v1/products/:id', (request, response) => {
+app.delete('/api/v1/products/:id', checkAuth, (request, response) => {
   database('products').where('id', request.params.id).del()
   .then(() => {
     database('products').select()
