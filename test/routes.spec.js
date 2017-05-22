@@ -139,7 +139,7 @@ describe('server side testing', () => {
         chai.request(server)
         .post('/api/v1/merchants')
         .send({
-          merchant_name: 'Target', merchant_id: 333333
+          merchant_name: 'Target', merchant_id: 444444
         }, 'merchant_id')
         .end((error, response) => {
           response.should.have.status(201);
@@ -171,7 +171,7 @@ describe('server side testing', () => {
         .send({
           id: 5,
           product_keyword: 'Man Romper',
-          merchant: 111111
+          merchant: 444444
         })
         .end((error, response) => {
           response.should.have.status(201);
