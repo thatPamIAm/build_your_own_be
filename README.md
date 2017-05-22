@@ -2,12 +2,17 @@
 
 [Project Spec](http://frontend.turing.io/projects/build-your-own-backend.html)
 
-* Fork this repo, if you haven't already and check out a branch
-* Use this README as a template to create a file in this folder with your name as the title.
-* Submit a pull request
-* Pro Tip: You can use [recordit.co](http://recordit.co/) to record interaction gifs.
-* Secondary Pro Tip: [Here's how to link to specific line number(s) in Github](http://stackoverflow.com/questions/23821235/how-to-link-to-specific-line-number-on-github)
-* Tertiary Pro Tip: You can re-use some of these things in your portfolio/resume
+- **[<code>GET</code> /api/v1/merchants](https://byob-pam.herokuapp.com/api/v1/merchants )**
+- **[<code>GET</code> /api/v1/merchants/:merchant_id](https://byob-pam.herokuapp.com/api/v1/merchants/125427)**
+- **[<code>GET</code> /api/v1/products](https://byob-pam.herokuapp.com/api/v1/products)**
+- **[<code>GET</code> api/v1/products/:id](https://github.com/500px/api-documentation/blob/master/endpoints/photo/GET_photos_id_comments.md)**
+- **[<code>GET</code> /api/v1/merchantName](https://byob-pam.herokuapp.com/api/v1/merchantName?merchant_name=Sur%20La%20Table)**
+- **[<code>PATCH</code> /api/v1/products/:id/edit](https://byob-pam.herokuapp.com/api/v1/products)**
+- **[<code>PUT</code> /api/v1/products/:id/replace](https://byob-pam.herokuapp.com/api/v1/products)**
+- **[<code>POST</code> /api/v1/merchants](https://byob-pam.herokuapp.com/api/v1/merchants)**
+- **[<code>POST</code> /api/v1/products](https://byob-pam.herokuapp.com/api/v1/products)**
+- **[<code>DELETE</code> /api/v1/merchants/:merchant_id](https://byob-pam.herokuapp.com/api/v1/merchants)**
+- **[<code>DELETE</code> /api/v1/products/:id](https://byob-pam.herokuapp.com/api/v1/products)**
 
 ------
 

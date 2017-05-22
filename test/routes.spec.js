@@ -321,6 +321,56 @@ describe('server side testing', () => {
       it('should not allow you patch without authorization', (done) => {
         chai.request(server)
         .patch('/api/v1/products/1/edit')
+        .send({
+          product_keyword: 'Man Romper',
+        })
+        .end((err, response) => {
+          response.should.have.status(403);
+          response.should.be.json;
+
+          done();
+        });
+      });
+    });
+
+    describe('PUT /api/v1/products/:id/edit', () => {
+      it('should allow you to replace an entire product', (done) => {
+        chai.request(server)
+        .get('/api/v1/products/1')
+
+        .end((error, response) => {
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('product_keyword');
+          response.body[0].product_keyword.should.equal('Some really cool boots');
+          response.body[0].should.have.property('merchant');
+          response.body[0].merchant.should.equal(222222);
+
+          chai.request(server)
+        .put('/api/v1/products/1/replace')
+        .set('Authorization', process.env.TOKEN)
+        .send({
+          product_keyword: 'Man Romper',
+          merchant: 222222
+        })
+        .end((error, response) => {
+          response.body[3].should.have.property('id');
+          response.body[3].id.should.equal(1);
+          response.body[3].should.have.property('product_keyword');
+          response.body[3].product_keyword.should.equal('Man Romper');
+
+          done();
+        });
+        });
+      });
+
+      it('should not allow you patch without authorization', (done) => {
+        chai.request(server)
+        .put('/api/v1/products/1/replace')
+        .send({
+          product_keyword: 'Man Romper',
+          merchant: 222222
+        })
         .end((err, response) => {
           response.should.have.status(403);
           response.should.be.json;
