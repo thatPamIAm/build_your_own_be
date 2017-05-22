@@ -96,7 +96,7 @@ describe('server side testing', () => {
         });
       });
 
-      it('should return a 404 error for non-existent routes', (done) => {
+      it('should return a 404 error for non-existent merchant', (done) => {
         chai.request(server)
         .get('/api/v1/merchant/444444')
         .end((err, response) => {
@@ -135,11 +135,11 @@ describe('server side testing', () => {
     });
 
     describe('POST /api/v1/merchants', () => {
-      it('should add a merchant to the database', (done) => {
+      it.skip('should add a merchant to the database', (done) => {
         chai.request(server)
         .post('/api/v1/merchants')
         .send({
-          merchant_name: 'Target', merchant_id: '333333'
+          merchant_name: 'Target', merchant_id: 444444
         }, 'merchant_id')
         .end((error, response) => {
           response.should.have.status(201);
@@ -165,13 +165,13 @@ describe('server side testing', () => {
     });
 
     describe('POST /api/v1/products', () => {
-      it('should add a product to the database', (done) => {
+      it.skip('should add a product to the database', (done) => {
         chai.request(server)
         .post('/api/v1/products')
         .send({
           id: 5,
           product_keyword: 'Man Romper',
-          merchant: '111111'
+          merchant: 444444
         })
         .end((error, response) => {
           response.should.have.status(201);
@@ -191,7 +191,7 @@ describe('server side testing', () => {
         .post('/api/v1/prodcts')
         .send({
           product_keyword: 'trendy hipster sunglasses',
-          merchant: ''
+          merchant: 123567
         })
         .end((error, response) => {
           response.should.have.status(404);
@@ -202,10 +202,11 @@ describe('server side testing', () => {
     });
 
     describe('DELETE /api/v1/products/:id', (request, response) => {
-      it.skip('should delete a specific product', (done) => {
+      it('should delete a specific product', (done) => {
         chai.request(server)
 
         .delete('/api/v1/products/4')
+        .set('Authorization', process.env.TOKEN)
         .end((err, response) => {
           response.should.have.status(200);
           response.should.be.json;
@@ -215,18 +216,42 @@ describe('server side testing', () => {
           done();
         });
       });
+
+      it('should not allow you to delete without authorization', (done) => {
+        chai.request(server)
+
+        .delete('/api/v1/products/4')
+        .end((err, response) => {
+          response.should.have.status(403);
+          response.should.be.json;
+
+          done();
+        });
+      });
     });
 
     describe('DELETE /api/v1/merchants/:merchants_id', (request, response) => {
       it.skip('should delete a merchant and all associated products', (done) => {
         chai.request(server)
-
-        .delete('/api/v1/products/4')
+        .delete('/api/v1/merchants/111111')
+        .set('Authorization', process.env.TOKEN)
         .end((err, response) => {
           response.should.have.status(200);
           response.should.be.json;
           response.body.should.be.a('array');
           response.body.length.should.equal(3);
+
+          done();
+        });
+      });
+
+      it('should not allow you to delete without authorization', (done) => {
+        chai.request(server)
+
+        .delete('/api/v1/merchants/111111')
+        .end((err, response) => {
+          response.should.have.status(403);
+          response.should.be.json;
 
           done();
         });
@@ -246,6 +271,59 @@ describe('server side testing', () => {
           response.body[0].merchant_name.should.equal('Foleys');
           response.body[0].should.have.property('merchant_id');
           response.body[0].merchant_id.should.equal(222222);
+
+          done();
+        });
+      });
+
+      it('should return a 404 error for non-existent merchant', (done) => {
+        chai.request(server)
+        .get('/api/v1/merchantName?merchant_name=CircleCI Hell')
+        .end((err, response) => {
+          response.should.have.status(404);
+
+          done();
+        });
+      });
+    });
+
+    describe('PATCH /api/v1/products/:id/edit', () => {
+      it('should allow you to edit the product_keyword', (done) => {
+        chai.request(server)
+        .get('/api/v1/products/1')
+
+        .end((error, response) => {
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('product_keyword');
+          response.body[0].product_keyword.should.equal('Some really cool boots');
+          response.body[0].should.have.property('merchant');
+          response.body[0].merchant.should.equal(222222);
+
+          chai.request(server)
+        .patch('/api/v1/products/1/edit')
+        .set('Authorization', process.env.TOKEN)
+        .send({
+          product_keyword: 'Man Romper',
+        })
+        .end((error, response) => {
+          response.body.should.be.a('array');
+          response.body[3].should.have.property('id');
+          response.body[3].id.should.equal(1);
+          response.body[3].should.have.property('product_keyword');
+          response.body[3].product_keyword.should.equal('Man Romper');
+
+          done();
+        });
+        });
+      });
+
+      it('should not allow you patch without authorization', (done) => {
+        chai.request(server)
+        .patch('/api/v1/products/1/edit')
+        .end((err, response) => {
+          response.should.have.status(403);
+          response.should.be.json;
 
           done();
         });
