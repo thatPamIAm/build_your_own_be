@@ -251,16 +251,6 @@ describe('server side testing', () => {
           done();
         });
       });
-
-      // it('should return a 404 error for a non-existent merchant route', (done) => {
-      //   chai.request(server)
-      //   .get('/api/v1/merchantName?merchant_name=CircleCIHell')
-      //   .end((err, response) => {
-      //     response.should.have.status(404);
-      //
-      //     done();
-      //   });
-      // });
     });
   });
 });
