@@ -135,7 +135,7 @@ describe('server side testing', () => {
     });
 
     describe('POST /api/v1/merchants', () => {
-      it.skip('should add a merchant to the database', (done) => {
+      it('should add a merchant to the database', (done) => {
         chai.request(server)
         .post('/api/v1/merchants')
         .send({
@@ -165,7 +165,7 @@ describe('server side testing', () => {
     });
 
     describe('POST /api/v1/products', () => {
-      it.skip('should add a product to the database', (done) => {
+      it('should add a product to the database', (done) => {
         chai.request(server)
         .post('/api/v1/products')
         .send({
@@ -202,10 +202,11 @@ describe('server side testing', () => {
     });
 
     describe('DELETE /api/v1/products/:id', (request, response) => {
-      it.skip('should delete a specific product', (done) => {
+      it('should delete a specific product', (done) => {
         chai.request(server)
 
         .delete('/api/v1/products/4')
+        .set('Authorization', process.env.TOKEN)
         .end((err, response) => {
           response.should.have.status(200);
           response.should.be.json;
@@ -220,8 +221,8 @@ describe('server side testing', () => {
     describe('DELETE /api/v1/merchants/:merchants_id', (request, response) => {
       it.skip('should delete a merchant and all associated products', (done) => {
         chai.request(server)
-
-        .delete('/api/v1/products/4')
+        .delete('/api/v1/merchants/111111')
+        .set('Authorization', process.env.TOKEN)
         .end((err, response) => {
           response.should.have.status(200);
           response.should.be.json;
@@ -250,6 +251,16 @@ describe('server side testing', () => {
           done();
         });
       });
+
+      // it('should return a 404 error for a non-existent merchant route', (done) => {
+      //   chai.request(server)
+      //   .get('/api/v1/merchantName?merchant_name=CircleCIHell')
+      //   .end((err, response) => {
+      //     response.should.have.status(404);
+      //
+      //     done();
+      //   });
+      // });
     });
   });
 });
