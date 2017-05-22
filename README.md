@@ -67,11 +67,11 @@ I'm proud that I was able to get the custom endpoint working, especially after h
 I couldn't get my test for this endpoint to pass, which tells me it must not be working.
 
 ## Testing
-[Imgur](http://i.imgur.com/LbbDPZy.png)
+![](http://i.imgur.com/LbbDPZy.png)
 
 ## Linting
 
-[Imgur](http://i.imgur.com/nLfjbhk.png)
+![](http://i.imgur.com/nLfjbhk.png)
 
 -----
 
