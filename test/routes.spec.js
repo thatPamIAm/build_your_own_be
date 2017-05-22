@@ -171,7 +171,7 @@ describe('server side testing', () => {
         .send({
           id: 5,
           product_keyword: 'Man Romper',
-          merchant: 444444
+          merchant: 111111
         })
         .end((error, response) => {
           response.should.have.status(201);
@@ -290,13 +290,13 @@ describe('server side testing', () => {
     describe('PATCH /api/v1/products/:id/edit', () => {
       it('should allow you to edit the product_keyword', (done) => {
         chai.request(server)
-        .get('/api/v1/products/1')
+        .get('/api/v1/products/2')
 
         .end((error, response) => {
           response.body.should.be.a('array');
           response.body.length.should.equal(1);
           response.body[0].should.have.property('product_keyword');
-          response.body[0].product_keyword.should.equal('Some really cool boots');
+          response.body[0].product_keyword.should.equal('Some sweet jacket');
           response.body[0].should.have.property('merchant');
           response.body[0].merchant.should.equal(222222);
 
@@ -340,7 +340,6 @@ describe('server side testing', () => {
 
         .end((error, response) => {
           response.body.should.be.a('array');
-          response.body.length.should.equal(1);
           response.body[0].should.have.property('product_keyword');
           response.body[0].product_keyword.should.equal('Some really cool boots');
           response.body[0].should.have.property('merchant');
